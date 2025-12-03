@@ -1,42 +1,30 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@import 'tailwindcss';
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+/* 커스텀 */
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
   }
-  to {
-    transform: rotate(360deg);
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+  .puple_btn {
+    @apply bg-purple-600 text-yellow-300 px-4 py-2 rounded-2xl 
+               hover:bg-purple-700 transition-colors duration-200;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.card_swiper .swiper {
+  height: 100%;
 }
-
-.card {
-  padding: 2em;
+.card_swiper .swiper-pagination {
+  bottom: 0px !important;
 }
-
-.read-the-docs {
-  color: #888;
+.card_swiper .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: black;
+}
+.card_swiper .swiper-pagination .swiper-pagination-bullet {
+  width: 16px;
+  height: 16px;
 }
