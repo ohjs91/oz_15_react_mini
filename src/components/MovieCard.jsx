@@ -13,7 +13,7 @@ const MovieCard = ({ data }) => {
         />
       </div>
       <div className="mb-1.5 ">
-        <strong>{data.original_title}</strong>
+        <strong>{data.title}</strong>
       </div>
       <div className="text-right">평점 : {data.vote_average.toFixed(1)}</div>
     </Link>
