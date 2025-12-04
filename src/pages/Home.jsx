@@ -6,8 +6,11 @@ import { Navigation, Pagination, A11y, Zoom } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
+const token = import.meta.env.VITE_API_TOKEN;
+const apiKey = import.meta.env.VITE_API_KEY;
 const Home = () => {
+  console.log(token);
+  console.log(apiKey);
   return (
     <>
       {/* 스와이퍼 영역 나중에 컴포넌트 분리하기 */}
