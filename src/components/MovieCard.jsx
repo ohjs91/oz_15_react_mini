@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { IMAGE_BASE_URL } from '@/constants';
 const MovieCard = ({ data }) => {
-  const baseUrl = 'https://image.tmdb.org/t/p/w500';
-  //   console.log(data);
   return (
     <Link to={`/details/${data.id}`} className="movie-card ">
       <div className="h-[300px] mb-3 rounded-2xl overflow-hidden">
         <img
           className="w-full h-full"
-          src={baseUrl + data.poster_path}
+          src={IMAGE_BASE_URL + data.poster_path}
           alt={data.title}
         />
       </div>

@@ -6,14 +6,15 @@ import Loading from '@/pages/Loading';
 import Error from '@/pages/Error';
 const MovieDetail = () => {
   const { id } = useParams();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   const { data, loading, error } = useFetch({
     type: 'detail',
     movie_id: id,
   });
-  //   console.log(data);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 

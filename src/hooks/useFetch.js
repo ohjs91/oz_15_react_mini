@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API_TOKEN, BASE_URL } from '@/constants';
+import { API_TOKEN, API_BASE_URL } from '@/constants';
 
 export const useFetch = ({ type, movie_id }) => {
   const [data, setData] = useState(null);
@@ -22,22 +22,20 @@ export const useFetch = ({ type, movie_id }) => {
         let url = '';
         switch (type) {
           case 'popular':
-            url = `${BASE_URL}popular?language=ko-KR`;
+            url = `${API_BASE_URL}popular?language=ko-KR`;
             break;
 
           case 'detail':
-            url = `${BASE_URL}${movie_id}?language=ko-KR`;
-            // console.log(url);
+            url = `${API_BASE_URL}${movie_id}?language=ko-KR`;
             break;
 
           default:
             return;
         }
         const res = await fetch(url, options);
-        const json = await res.json();
+        const result = await res.json();
 
-        // console.log(json);
-        setData(json);
+        setData(result);
       } catch (err) {
         setError(err);
       } finally {
