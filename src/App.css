@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+/* 커스텀 */
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+  .puple_btn {
+    @apply bg-purple-600 text-yellow-300 px-4 py-2 rounded-2xl 
+               hover:bg-purple-700 transition-colors duration-200;
+  }
+}
+
+.card_swiper .swiper {
+  height: 100%;
+}
+.card_swiper .swiper-pagination {
+  bottom: 0px !important;
+}
+.card_swiper .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: black;
+}
+.card_swiper .swiper-pagination .swiper-pagination-bullet {
+  width: 16px;
+  height: 16px;
+}
