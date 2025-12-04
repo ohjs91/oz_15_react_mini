@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IMAGE_BASE_URL } from '@/constants';
-const MovieCard = ({ data }) => {
+const MovieCard = ({ data, no }) => {
   return (
     <Link to={`/details/${data.id}`} className="movie-card ">
+      {no && <strong>{no}</strong>}
       <div className="h-[300px] mb-3 rounded-2xl overflow-hidden">
         <img
           className="w-full h-full"
@@ -11,7 +12,7 @@ const MovieCard = ({ data }) => {
           alt={data.title}
         />
       </div>
-      <div className="mb-1.5 ">
+      <div className="mb-1.5 truncate">
         <strong>{data.title}</strong>
       </div>
       <div className="text-right">평점 : {data.vote_average.toFixed(1)}</div>

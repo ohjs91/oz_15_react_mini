@@ -15,16 +15,31 @@
   }
 }
 
-.card_swiper .swiper {
+#root .card_swiper .swiper {
   height: 100%;
 }
-.card_swiper .swiper-pagination {
+#root .card_swiper .swiper-pagination {
   bottom: 0px !important;
 }
-.card_swiper .swiper-pagination .swiper-pagination-bullet-active {
+#root .card_swiper .swiper-pagination .swiper-pagination-bullet-active {
   background-color: black;
 }
-.card_swiper .swiper-pagination .swiper-pagination-bullet {
+#root .card_swiper .swiper-pagination .swiper-pagination-bullet {
   width: 16px;
   height: 16px;
+}
+
+#root .card_swiper .swiper-button-prev,
+#root .card_swiper .swiper-button-next {
+  background-color: #4a4343;
+  border-radius: 50%;
+}
+#root .card_swiper .swiper-button-prev svg,
+#root .card_swiper .swiper-button-next svg {
+  height: 50%;
+}
+#root .card_swiper .swiper-button-prev svg path,
+#root .card_swiper .swiper-button-next svg path {
+  fill: #fff;
+  height: 10px;
 }
