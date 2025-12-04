@@ -1,6 +1,6 @@
 import React from 'react';
 import DetailData from '../data/movieDetailData';
-console.log(DetailData);
+
 const baseUrl = 'https://image.tmdb.org/t/p/w500';
 const MovieDetail = () => {
   return (
@@ -15,7 +15,7 @@ const MovieDetail = () => {
         </div>
         <div className="flex gap-3 mb-24">
           {DetailData.genres.map((el) => {
-            return <span>{el.name}</span>;
+            return <span key={el.id}>{el.name}</span>;
           })}
         </div>
         <p className="text-left">{DetailData.overview}</p>
