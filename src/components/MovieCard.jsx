@@ -4,7 +4,7 @@ const MovieCard = ({ data }) => {
   const baseUrl = 'https://image.tmdb.org/t/p/w500';
   //   console.log(data);
   return (
-    <Link to={'/details'} className="movie-card ">
+    <Link to={`/details/${data.id}`} className="movie-card ">
       <div className="h-[300px] mb-3 rounded-2xl overflow-hidden">
         <img
           className="w-full h-full"

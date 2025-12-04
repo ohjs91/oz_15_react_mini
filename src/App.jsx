@@ -3,7 +3,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/common/Layout';
 import Home from '@/pages/Home';
-import Details from '@/pages/Details';
+import Details from '@/components/MovieDetail';
 function App() {
   return (
     <Routes>

@@ -5,7 +5,7 @@ const Header = () => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <header className="h-24 px-8 flex-between bg-black">
+    <header className="h-24 px-8 flex-between bg-black fixed w-full z-10">
       <h1>
         <Link className="text-4xl font-bold text-white" to={'/'}>
           OZ무비
