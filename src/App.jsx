@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/common/Layout';
-import Home from '@/pages/Home';
-import Details from '@/pages/Details';
+const Home = lazy(() => import('@/pages/Home'));
+const Details = lazy(() => import('@/components/MovieDetail'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
+const Loading = lazy(() => import('@/pages/Loading'));
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="details" element={<Details />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="details/:id" element={<Details />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 

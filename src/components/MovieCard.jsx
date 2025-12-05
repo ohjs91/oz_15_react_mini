@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const MovieCard = ({ data }) => {
-  const baseUrl = 'https://image.tmdb.org/t/p/w500';
-  //   console.log(data);
+import { IMAGE_BASE_URL } from '@/constants';
+const MovieCard = ({ data, no }) => {
   return (
-    <Link to={'/details'} className="movie-card ">
+    <Link to={`/details/${data.id}`} className="movie-card ">
+      {no && <strong>{no}</strong>}
       <div className="h-[300px] mb-3 rounded-2xl overflow-hidden">
         <img
           className="w-full h-full"
-          src={baseUrl + data.poster_path}
+          src={IMAGE_BASE_URL + data.poster_path}
           alt={data.title}
         />
       </div>
-      <div className="mb-1.5 ">
-        <strong>{data.original_title}</strong>
+      <div className="mb-1.5 truncate">
+        <strong>{data.title}</strong>
       </div>
       <div className="text-right">평점 : {data.vote_average.toFixed(1)}</div>
     </Link>
