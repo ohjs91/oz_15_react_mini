@@ -6,16 +6,21 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 const PopularSwiper = ({ data }) => {
+  console.log(data);
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
       <div className="popular_swiper_wrap bg-black">
-        <div className="flex-center px-20">
+        <div className="flex-center relative px-20">
           <img
             className="h-100 w-full"
             src={`${'https://image.tmdb.org/t/p/w1280' + data[activeIndex].backdrop_path}`}
             alt=""
           />
+          <div className="w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8">
+            <strong className="text-2xl">{data[activeIndex].title}</strong>
+            <p>{data[activeIndex].overview}</p>
+          </div>
         </div>
 
         <div className="card_swiper py-10 px-20 text-white relative before:content-[''] before:absolute before:w-full before:h-full before:bg-black before:left-0  before:top-0">
