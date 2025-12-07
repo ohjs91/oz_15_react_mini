@@ -12,12 +12,13 @@ const Header = ({ setSearchOpen }) => {
         </h1>
 
         <div className="user_area flex gap-6">
-          <button
+          <Link
+            to={'/search'}
             className="text-white text-3xl cursor-pointer"
             onClick={() => setSearchOpen(true)}
           >
             <BiSearch />
-          </button>
+          </Link>
 
           <button className="puple_btn" type="button">
             로그인

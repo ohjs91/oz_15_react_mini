@@ -1,11 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
 import useSearch from '@/hooks/useSearch';
 import { BiSearch } from 'react-icons/bi';
-const SearchLayer = ({ setSearchOpen }) => {
-  const [keyword, setKeyword] = useState('');
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+
+const debounce = (func, delay) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(...args), delay);
+  };
+};
+
+const Search = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlKeyword = searchParams.get('keyword') || '';
+  const [keyword, setKeyword] = useState(urlKeyword);
+
+  // 디바운스
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((query) => {
+        console.log('디바운스 검색 쿼리:', query);
+      }, 300),
+    [],
+  );
+  const handleChangeDebounced = useCallback(
+    (event) => {
+      setKeyword(event.target.value);
+      debouncedSearch(event.target.value);
+    },
+    [debouncedSearch],
+  );
   const { data, loading, error } = useSearch({ keyword });
   const filterData = data?.results?.filter((el) => el.adult === false) || [];
+
+  useEffect(() => {
+    setSearchParams({ keyword });
+  }, [keyword]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -21,7 +53,7 @@ const SearchLayer = ({ setSearchOpen }) => {
         <input
           type="text"
           value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={handleChangeDebounced}
           placeholder="검색어를 입력해주세요"
           autoFocus
           className="w-full pl-14 pr-5 py-4 text-lg text-black bg-white rounded-2xl shadow-md outline-none focus:ring-2 focus:ring-blue-500 transition-all"
@@ -32,14 +64,15 @@ const SearchLayer = ({ setSearchOpen }) => {
           <MovieCard key={el.id} data={el} no={index + 1} />
         ))}
       </div>
-      <button
+      <Link
+        to={'/'}
         className="absolute top-12 right-12 text-4xl text-white cursor-pointer"
         onClick={() => setSearchOpen(false)}
       >
         ✕
-      </button>
+      </Link>
     </div>
   );
 };
 
-export default SearchLayer;
+export default Search;
