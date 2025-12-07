@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { API_TOKEN, API_BASE_URL } from '@/constants';
 
-export const useFetch = ({ type, movie_id }) => {
+export const useSearch = ({ keyword }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (type === 'search' && keyword == '') {
+      if (keyword == '') {
         setData([]);
         setLoading(false);
         return;
@@ -24,25 +24,11 @@ export const useFetch = ({ type, movie_id }) => {
           },
         };
 
-        let url = '';
-        switch (type) {
-          case 'popular':
-            url = `${API_BASE_URL}movie/popular?language=ko-KR`;
-            break;
-
-          case 'detail':
-            url = `${API_BASE_URL}movie/${movie_id}?language=ko-KR`;
-            break;
-          case 'search':
-            url = `${API_BASE_URL}search/movie?query=${keyword}&language=ko-KR`;
-            break;
-
-          default:
-            return;
-        }
-        const res = await fetch(url, options);
+        const res = await fetch(
+          `${API_BASE_URL}search/movie?query=${keyword}&language=ko-KR&include_adult=false`,
+          options,
+        );
         const result = await res.json();
-
         setData(result);
       } catch (err) {
         setError(err);
@@ -51,7 +37,7 @@ export const useFetch = ({ type, movie_id }) => {
       }
     };
     fetchData();
-  }, [type, movie_id]);
+  }, [keyword]);
   return { data, loading, error };
 };
-export default useFetch;
+export default useSearch;

@@ -6,7 +6,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 const PopularSwiper = ({ data }) => {
-  console.log(data);
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
@@ -17,7 +16,7 @@ const PopularSwiper = ({ data }) => {
             src={`${'https://image.tmdb.org/t/p/w1280' + data[activeIndex].backdrop_path}`}
             alt=""
           />
-          <div className="w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8">
+          <div className="w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8 z-2">
             <strong className="text-2xl">{data[activeIndex].title}</strong>
             <p>{data[activeIndex].overview}</p>
           </div>
