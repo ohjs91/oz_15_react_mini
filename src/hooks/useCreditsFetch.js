@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { API_BASE_URL, API_OPTION } from '@/constants';
 
-export const useFetch = () => {
+export const useCredits = ({ movie_id }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +12,7 @@ export const useFetch = () => {
 
       try {
         const res = await fetch(
-          `${API_BASE_URL}movie/popular?language=ko-KR`,
+          `${API_BASE_URL}movie/${movie_id}/credits?language=ko-KR`,
           API_OPTION,
         );
         const result = await res.json();
@@ -25,7 +25,7 @@ export const useFetch = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [movie_id]);
   return { data, loading, error };
 };
-export default useFetch;
+export default useCredits;

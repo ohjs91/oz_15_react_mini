@@ -1,45 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
-const Header = () => {
-  const [isFocused, setIsFocused] = useState(false);
+import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
 
+const Header = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setIsDarkMode((dark) => !dark);
+  };
+  useEffect(() => {
+    const isDark = localStorage.getItem('darkMode');
+    if (isDark === 'true') {
+      setIsDarkMode(true);
+    } else if (isDark === 'false') {
+      setIsDarkMode(false);
+    }
+  }, []);
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('darkMode', isDarkMode);
+  }, [isDarkMode]);
   return (
-    <header className="h-24 px-8 flex-between bg-black fixed w-full z-10">
-      <h1>
-        <Link className="text-4xl font-bold text-white" to={'/'}>
-          OZ무비
-        </Link>
-      </h1>
-      <div className="relative ">
-        <BiSearch
-          className={`absolute left-3 top-1/2 transform -translate-y-1/2 
-                      text-gray-400 transition-all duration-300 ease-in-out
-                      text-2xl`}
-        />
-        <input
-          type="text"
-          className={`pl-10 pr-4 py-2 rounded-full shadow-sm bg-white
-            transition-all duration-300 ease-in-out
-            ${
-              isFocused
-                ? 'w-180 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
-                : 'w-60 border-0 bg-transparent focus:outline-none'
-            }`}
-          placeholder="검색어를 입력해주세요."
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-        />
-      </div>
-      <div className="user_area flex gap-6">
-        <button className="puple_btn" type="button">
-          로그인
-        </button>
-        <button className="puple_btn" type="button">
-          회원가입
-        </button>
-      </div>
-    </header>
+    <>
+      <header className="h-24 px-4 sm:px-12 flex-between bg-black fixed w-full z-99">
+        <h1>
+          <Link className="text-2xl sm:text-4xl font-bold text-white" to={'/'}>
+            OZ무비
+          </Link>
+        </h1>
+
+        <div className="user_area flex-center gap-2">
+          <Link to={'/search'} className="text-white text-3xl cursor-pointer">
+            <BiSearch />
+          </Link>
+          <button
+            className="text-white text-3xl cursor-pointer p-1"
+            onClick={toggleDarkMode}
+          >
+            {isDarkMode ? <IoSunnyOutline /> : <IoMoonOutline />}
+          </button>
+          <button className="puple_btn" type="button">
+            로그인
+          </button>
+          <button className="puple_btn" type="button">
+            회원가입
+          </button>
+        </div>
+      </header>
+    </>
   );
 };
 
