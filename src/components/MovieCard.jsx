@@ -4,7 +4,7 @@ import { IMAGE_BASE_URL } from '@/constants';
 const MovieCard = ({ data, no }) => {
   return (
     <Link to={`/details/${data.id}`} className="movie-card ">
-      {no && <strong>{no}</strong>}
+      {no && <strong className="text-black dark:text-white">{no}</strong>}
       <div className="h-[300px] mb-3 rounded-2xl overflow-hidden">
         <img
           className="w-full h-full"
@@ -12,10 +12,12 @@ const MovieCard = ({ data, no }) => {
           alt={data.title}
         />
       </div>
-      <div className="mb-1.5 truncate">
-        <strong>{data.title}</strong>
+      <div className="mb-1.5 truncate text-black dark:text-white">
+        <strong className="">{data.title}</strong>
       </div>
-      <div className="text-right">평점 : {data.vote_average.toFixed(1)}</div>
+      <div className="text-right text-black dark:text-white">
+        평점 : {data.vote_average.toFixed(1)}
+      </div>
     </Link>
   );
 };
