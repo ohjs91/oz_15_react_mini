@@ -1,30 +1,26 @@
 import { useState, useEffect } from 'react';
-import { API_TOKEN, API_BASE_URL } from '@/constants';
+import { API_BASE_URL, API_OPTION } from '@/constants';
 
-export const useDetails = ({ movie_id }) => {
+export const useSearch = ({ keyword }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (keyword == '') {
+        setData([]);
+        setLoading(false);
+        return;
+      }
       setLoading(true);
 
       try {
-        const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${API_TOKEN}`,
-          },
-        };
-
         const res = await fetch(
-          `${API_BASE_URL}movie/${movie_id}?language=ko-KR`,
-          options,
+          `${API_BASE_URL}search/movie?query=${keyword}&language=ko-KR&include_adult=false`,
+          API_OPTION,
         );
         const result = await res.json();
-
         setData(result);
       } catch (err) {
         setError(err);
@@ -33,7 +29,7 @@ export const useDetails = ({ movie_id }) => {
       }
     };
     fetchData();
-  }, [movie_id]);
+  }, [keyword]);
   return { data, loading, error };
 };
-export default useDetails;
+export default useSearch;

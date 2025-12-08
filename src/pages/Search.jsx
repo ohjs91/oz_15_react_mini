@@ -1,13 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
-import useSearch from '@/hooks/useSearch';
+import useSearch from '@/hooks/useSearchFetch';
 import { BiSearch } from 'react-icons/bi';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import Loading from './Loading';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const urlKeyword = searchParams.get('keyword') || '';
+
+  const urlKeyword = searchParams.get('query') || '';
   const [keyword, setKeyword] = useState(urlKeyword);
+  const [debouncedKeyword, setDebouncedKeyword] = useState(urlKeyword);
+
+  const { data, loading } = useSearch({ keyword: debouncedKeyword });
 
   // 디바운스
   const debounce = (func, delay) => {
@@ -20,8 +25,9 @@ const Search = () => {
   const debouncedSearch = useMemo(
     () =>
       debounce((query) => {
+        setDebouncedKeyword(query);
         console.log('디바운스 검색 쿼리:', query);
-      }, 500),
+      }, 300),
     [],
   );
   const handleChangeDebounced = useCallback(
@@ -31,13 +37,14 @@ const Search = () => {
     },
     [debouncedSearch],
   );
-  const { data, loading, error } = useSearch({ keyword });
+
+  // 성인 필터
   const filterData = data?.results?.filter((el) => el.adult === false) || [];
 
+  // keyword 파라미터 동기화
   useEffect(() => {
-    setSearchParams({ keyword });
+    setSearchParams({ query: keyword });
   }, [keyword]);
-
   return (
     <div className="Searh_results fixed top-0 w-full h-screen p-12 bg-white dark:bg-gray-800 z-9999">
       <div className="relative w-full max-w-3xl mx-auto mb-6">
@@ -53,9 +60,11 @@ const Search = () => {
         />
       </div>
       <div className="media_grid gap-12  overflow-y-auto h-full hide-scrollbar max-h-[80vh]">
-        {filterData.map((el, index) => (
-          <MovieCard key={el.id} data={el} />
-        ))}
+        {loading ? (
+          <Loading />
+        ) : (
+          filterData.map((el, index) => <MovieCard key={el.id} data={el} />)
+        )}
       </div>
       <Link
         to={'/'}

@@ -10,7 +10,11 @@ const Header = () => {
   };
   useEffect(() => {
     const isDark = localStorage.getItem('darkMode');
-    if (isDark) setIsDarkMode(true);
+    if (isDark === 'true') {
+      setIsDarkMode(true);
+    } else if (isDark === 'false') {
+      setIsDarkMode(false);
+    }
   }, []);
   useEffect(() => {
     const root = document.documentElement;
@@ -31,11 +35,7 @@ const Header = () => {
         </h1>
 
         <div className="user_area flex-center gap-2">
-          <Link
-            to={'/search'}
-            className="text-white text-3xl cursor-pointer"
-            onClick={() => setSearchOpen(true)}
-          >
+          <Link to={'/search'} className="text-white text-3xl cursor-pointer">
             <BiSearch />
           </Link>
           <button

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { API_TOKEN, API_BASE_URL } from '@/constants';
+import { API_BASE_URL, API_OPTION } from '@/constants';
 
-export const useVideo = ({ movie_id }) => {
+export const useDetails = ({ movie_id }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,17 +11,9 @@ export const useVideo = ({ movie_id }) => {
       setLoading(true);
 
       try {
-        const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${API_TOKEN}`,
-          },
-        };
-
         const res = await fetch(
-          `${API_BASE_URL}movie/${movie_id}/videos?language=ko-KR`,
-          options,
+          `${API_BASE_URL}movie/${movie_id}?language=ko-KR`,
+          API_OPTION,
         );
         const result = await res.json();
 
@@ -36,4 +28,4 @@ export const useVideo = ({ movie_id }) => {
   }, [movie_id]);
   return { data, loading, error };
 };
-export default useVideo;
+export default useDetails;

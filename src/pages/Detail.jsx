@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useDetails from '@/hooks/useDetails';
+import useDetails from '@/hooks/useDetailsFetch';
 import { IMAGE_BASE_URL, YOUTUBE_EMBED_URL } from '@/constants';
 import Loading from '@/pages/Loading';
 import Error from '@/pages/Error';
-import useVideo from '@/hooks/useVideo';
-import useCredits from '@/hooks/useCredits';
+import useVideo from '@/hooks/useVideoFetch';
+import useCredits from '@/hooks/useCreditsFetch';
 const MovieDetail = () => {
   const { id } = useParams();
 
@@ -30,12 +30,17 @@ const MovieDetail = () => {
   } = useVideo({
     movie_id: id,
   });
-  const directors = creditsData?.crew?.filter((c) => c.job === 'Director');
-  const cast = creditsData?.cast;
 
+  // 감독
+  const directors = creditsData?.crew?.filter((c) => c.job === 'Director');
+  // 출연진
+  const cast = creditsData?.cast;
+  // 트레일러
   const trailer = videoData?.results?.find(
     (v) => v.type === 'Trailer' && v.site === 'YouTube',
   );
+
+  // 페이지 마운트시 스크롤 탑으로 이동
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

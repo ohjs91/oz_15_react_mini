@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MovieCard from '@/components/MovieCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, A11y, Zoom } from 'swiper/modules';
+import { Navigation, Pagination, Zoom } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';

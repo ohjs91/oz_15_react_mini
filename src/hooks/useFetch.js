@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API_TOKEN, API_BASE_URL } from '@/constants';
+import { API_BASE_URL, API_OPTION } from '@/constants';
 
 export const useFetch = () => {
   const [data, setData] = useState(null);
@@ -11,17 +11,9 @@ export const useFetch = () => {
       setLoading(true);
 
       try {
-        const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${API_TOKEN}`,
-          },
-        };
-
         const res = await fetch(
           `${API_BASE_URL}movie/popular?language=ko-KR`,
-          options,
+          API_OPTION,
         );
         const result = await res.json();
 

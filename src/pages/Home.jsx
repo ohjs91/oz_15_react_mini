@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MovieCard from '@/components/MovieCard';
 import useFetch from '@/hooks/useFetch';
 import Loading from './Loading';
