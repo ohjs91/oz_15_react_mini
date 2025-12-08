@@ -7,6 +7,7 @@ const Details = lazy(() => import('@/pages/Detail'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Loading = lazy(() => import('@/pages/Loading'));
 const Search = lazy(() => import('@/pages/Search'));
+const Login = lazy(() => import('@/pages/Login'));
 function App() {
   return (
     <Suspense fallback={<Loading />}>
@@ -17,6 +18,7 @@ function App() {
           <Route path="search" element={<Search />} />
         </Route>
         <Route path="*" element={<NotFound />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Suspense>
   );

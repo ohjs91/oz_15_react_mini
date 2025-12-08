@@ -16,6 +16,13 @@
   .media_grid {
     @apply grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-2 grid-cols-1;
   }
+  .form_input {
+    @apply w-full px-4 py-3 
+                    rounded-xl border border-gray-300 
+                    focus:ring-2 focus:block focus:border-black
+                    bg-gray-50 text-gray-800
+                    transition-all outline-none;
+  }
 }
 @media (max-width: 640px) {
   .puple_btn {

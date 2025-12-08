@@ -44,12 +44,12 @@ const Header = () => {
           >
             {isDarkMode ? <IoSunnyOutline /> : <IoMoonOutline />}
           </button>
-          <button className="puple_btn" type="button">
+          <Link className="puple_btn" to={'/login'}>
             로그인
-          </button>
-          <button className="puple_btn" type="button">
+          </Link>
+          <Link className="puple_btn" to={'/signup'}>
             회원가입
-          </button>
+          </Link>
         </div>
       </header>
     </>
