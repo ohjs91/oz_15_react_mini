@@ -8,6 +8,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Loading = lazy(() => import('@/pages/Loading'));
 const Search = lazy(() => import('@/pages/Search'));
 const Login = lazy(() => import('@/pages/Login'));
+const Signup = lazy(() => import('@/pages/Signup'));
 function App() {
   return (
     <Suspense fallback={<Loading />}>
@@ -19,6 +20,7 @@ function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Suspense>
   );
