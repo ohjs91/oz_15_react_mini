@@ -1,14 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IMAGE_BASE_URL } from '@/constants';
+import useLazyImages from '@/hooks/useLazyImages';
 const MovieCard = ({ data, no }) => {
+  const imgRef = useLazyImages();
   return (
     <Link to={`/details/${data.id}`} className="movie-card ">
       {no && <strong className="text-black dark:text-white">{no}</strong>}
       <div className="h-[300px] mb-3 rounded-2xl overflow-hidden">
         <img
+          ref={imgRef}
+          data-src={IMAGE_BASE_URL + data.poster_path}
           className="w-full h-full"
-          src={IMAGE_BASE_URL + data.poster_path}
           alt={data.title}
         />
       </div>

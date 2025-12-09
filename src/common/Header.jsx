@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
@@ -6,6 +7,9 @@ import { useAuth } from '@/context/index';
 const Header = () => {
   const { user, isLogin, logout } = useAuth();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  // 다크모드 토글
   const toggleDarkMode = () => {
     setIsDarkMode((dark) => !dark);
   };
@@ -51,18 +55,46 @@ const Header = () => {
             {isDarkMode ? <IoSunnyOutline /> : <IoMoonOutline />}
           </button>
           {isLogin ? (
-            <>
-              <span className="text-white text-sm sm:text-base">
-                {user?.user_metadata.user_name} 님
-              </span>
+            <div className="relative group">
               <button
-                type="button"
-                className="puple_btn cursor-pointer"
-                onClick={logout}
+                className="flex items-center"
+                onClick={() => setOpen((prev) => !prev)}
               >
-                로그아웃
+                <FaUserCircle className="text-white w-8 h-8 cursor-pointer" />
               </button>
-            </>
+              {open && (
+                <div
+                  className="absolute right-0 mt-3 w-40 bg-white dark:bg-gray-800 
+                rounded-xl shadow-lg transition-all duration-300 z-99"
+                >
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                    <span className="text-gray-800 dark:text-gray-200 text-sm font-semibold">
+                      {user?.user_metadata?.user_name} 님
+                    </span>
+                  </div>
+
+                  <ul className="flex flex-col text-sm text-gray-700 dark:text-gray-200">
+                    <li>
+                      <Link
+                        to="/mypage"
+                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        마이페이지
+                      </Link>
+                    </li>
+
+                    <li>
+                      <button
+                        onClick={logout}
+                        className="cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl"
+                      >
+                        로그아웃
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <Link className="puple_btn" to={'/login'}>
