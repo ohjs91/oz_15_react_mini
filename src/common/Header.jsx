@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
-
+import { useAuth } from '@/context/index';
 const Header = () => {
+  const { user, isLogin, logout } = useAuth();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const toggleDarkMode = () => {
     setIsDarkMode((dark) => !dark);
   };
+
+  // 로컬스토리지 다크모드
   useEffect(() => {
     const isDark = localStorage.getItem('darkMode');
     if (isDark === 'true') {
@@ -16,6 +19,8 @@ const Header = () => {
       setIsDarkMode(false);
     }
   }, []);
+
+  // 다크모드 감지
   useEffect(() => {
     const root = document.documentElement;
     if (isDarkMode) {
@@ -25,6 +30,7 @@ const Header = () => {
     }
     localStorage.setItem('darkMode', isDarkMode);
   }, [isDarkMode]);
+
   return (
     <>
       <header className="h-24 px-4 sm:px-12 flex-between bg-black fixed w-full z-99">
@@ -44,12 +50,29 @@ const Header = () => {
           >
             {isDarkMode ? <IoSunnyOutline /> : <IoMoonOutline />}
           </button>
-          <button className="puple_btn" type="button">
-            로그인
-          </button>
-          <button className="puple_btn" type="button">
-            회원가입
-          </button>
+          {isLogin ? (
+            <>
+              <span className="text-white text-sm sm:text-base">
+                {user?.user_metadata.user_name} 님
+              </span>
+              <button
+                type="button"
+                className="puple_btn cursor-pointer"
+                onClick={logout}
+              >
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <Link className="puple_btn" to={'/login'}>
+                로그인
+              </Link>
+              <Link className="puple_btn" to={'/signup'}>
+                회원가입
+              </Link>
+            </>
+          )}
         </div>
       </header>
     </>
