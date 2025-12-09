@@ -8,9 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('userInfo');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const initialValue = localStorage.getItem('userInfo');
+    if (initialValue) {
+      console.log(initialValue);
+      setUser(JSON.parse(initialValue));
       setIsLogin(true);
     }
   }, []);
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('userInfo');
     setUser(null);
     setIsLogin(false);
+    alert('로그아웃 되었습니다.');
   };
 
   return (
