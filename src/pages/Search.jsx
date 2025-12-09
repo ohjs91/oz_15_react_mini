@@ -26,7 +26,6 @@ const Search = () => {
     () =>
       debounce((query) => {
         setDebouncedKeyword(query);
-        console.log('디바운스 검색 쿼리:', query);
       }, 300),
     [],
   );

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import FormHeader from '@/components/FormHeader';
 import FormInput from '@/components/FormInput';
-import { supabase } from '@/lib/supabase';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/index';
 const Signup = () => {
+  const { join } = useAuth();
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -54,34 +55,19 @@ const Signup = () => {
     e.preventDefault();
 
     if (!validation()) return;
-    console.log('Sending user_name:', userName);
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: userEmail,
-      password: userPassword,
-      options: {
-        data: {
-          user_name: userName,
-        },
-      },
-    });
 
-    if (authError) {
-      alert(authError.message);
-      return;
+    try {
+      await join({
+        name: userName,
+        email: userEmail,
+        password: userPassword,
+      });
+
+      alert('회원가입 성공!');
+      navigate('/');
+    } catch (error) {
+      alert(error.message);
     }
-
-    const { error: insertError } = await supabase.from('users').insert({
-      email: userEmail,
-      name: userName,
-    });
-
-    if (insertError) {
-      alert(insertError.message);
-      return;
-    }
-
-    alert('회원가입 성공!');
-    navigate('/');
   };
   return (
     <div className="flex-center w-screen h-screen bg-gray-100">

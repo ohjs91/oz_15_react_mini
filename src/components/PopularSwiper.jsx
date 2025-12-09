@@ -19,7 +19,11 @@ const PopularSwiper = ({ data }) => {
           />
           <div className="hidden sm:block hide-scrollbar w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8 z-2">
             <strong className="text-2xl">{data[activeIndex].title}</strong>
-            <p>{data[activeIndex].overview}</p>
+            <p className="mt-2">
+              {data[activeIndex].overview
+                ? data[activeIndex].overview
+                : '등록된 정보가 없습니다.'}
+            </p>
           </div>
         </div>
 

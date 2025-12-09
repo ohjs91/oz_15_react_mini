@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/supabase/supabase';
 
 const AuthContext = createContext();
 
@@ -10,12 +10,28 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initialValue = localStorage.getItem('userInfo');
     if (initialValue) {
-      console.log(initialValue);
       setUser(JSON.parse(initialValue));
       setIsLogin(true);
     }
   }, []);
 
+  // 회원가입
+  const join = async ({ name, email, password }) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          user_name: name,
+        },
+      },
+    });
+    if (error) throw error;
+
+    const user = data.user;
+
+    return user;
+  };
   // 로그인
   const login = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -47,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLogin, login, logout }}>
+    <AuthContext.Provider value={{ user, isLogin, login, logout, join }}>
       {children}
     </AuthContext.Provider>
   );
