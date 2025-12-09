@@ -7,6 +7,7 @@ const FormInput = ({
   required,
   value,
   onChange,
+  vali,
 }) => {
   return (
     <div>
@@ -23,6 +24,7 @@ const FormInput = ({
         onChange={onChange}
         className="form_input mt-2"
       />
+      {vali && <p className="text-red-500 text-xs mt-1 mb-0">{vali}</p>}
     </div>
   );
 };

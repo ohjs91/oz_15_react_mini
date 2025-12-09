@@ -123,7 +123,7 @@ const MovieDetail = () => {
             {cast?.map((el) => (
               <div
                 key={el.cast_id}
-                className="flex flex-col items-center min-w-28 w-28 flex-shrink-0"
+                className="flex flex-col items-center min-w-28 w-28 shrink-0"
               >
                 {el.profile_path ? (
                   <img

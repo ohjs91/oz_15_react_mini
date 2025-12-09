@@ -1,16 +1,48 @@
 import React, { useState } from 'react';
 import FormHeader from '@/components/FormHeader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormInput from '@/components/FormInput';
-
+import { supabase } from '@/lib/supabase';
 const Login = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: userEmail,
+      password: userPassword,
+    });
+
+    //로그인시 유저 정보 로컬스토리지에 세팅
+    supabase.auth.getSession().then(({ data }) => {
+      const session = data.session;
+      const user = session?.user ?? null;
+      console.log(user);
+      if (user) {
+        localStorage.setItem('userInfo', JSON.stringify(user));
+      }
+    });
+
+    if (error) {
+      if (error.message.includes('Invalid login credentials')) {
+        alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+      } else {
+        alert(`로그인 오류: ${error.message}`);
+      }
+      console.error('로그인 실패:', error);
+    } else {
+      alert('로그인 성공!');
+      navigate('/');
+    }
+  };
   return (
     <div className="flex-center w-screen h-screen bg-gray-100">
       <div className="max-w-[600px] w-full bg-white rounded-2xl shadow-2xl p-10">
-        <FormHeader title={'Login'} />
-        <div className="space-y-8">
+        <FormHeader title={'로그인'} />
+        <form onSubmit={handleLogin} className="space-y-8">
           <FormInput
             label="이메일"
             id="user_email"
@@ -31,17 +63,20 @@ const Login = () => {
           />
 
           <div className="space-y-4">
-            <button className="cursor-pointer w-full bg-blue-600 text-white py-4 rounded-xl text-xl font-semibold hover:bg-blue-700 transition">
+            <button
+              type="submit"
+              className="cursor-pointer w-full bg-blue-600 text-white py-4 rounded-xl text-xl font-semibold hover:bg-blue-700 transition"
+            >
               로그인
             </button>
 
-            <button className="cursor-pointer w-full flex items-center justify-center gap-3 bg-yellow-400 text-black py-4 rounded-xl text-lg font-semibold hover:bg-yellow-500 transition">
+            {/* <button className="cursor-pointer w-full flex items-center justify-center gap-3 bg-yellow-400 text-black py-4 rounded-xl text-lg font-semibold hover:bg-yellow-500 transition">
               카카오 로그인
             </button>
 
             <button className="cursor-pointer w-full flex items-center justify-center gap-3 border py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition">
               구글 로그인
-            </button>
+            </button> */}
           </div>
 
           <div className="text-center text-gray-700 text-lg mt-4">
@@ -50,7 +85,7 @@ const Login = () => {
               회원가입 하기
             </Link>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
