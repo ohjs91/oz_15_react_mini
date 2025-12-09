@@ -2,40 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
-import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/context/index';
 const Header = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const { user, isLogin, logout } = useAuth();
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isLogin, setIslogin] = useState(false);
   const toggleDarkMode = () => {
     setIsDarkMode((dark) => !dark);
-  };
-
-  // 로그인한 정보 가져오기
-  useEffect(() => {
-    const getUserInfo = localStorage.getItem('userInfo');
-    if (getUserInfo) {
-      const userData = JSON.parse(getUserInfo);
-      setUserInfo(userData);
-      console.log(userData);
-      setIslogin(true);
-    } else {
-      setIslogin(false);
-    }
-  }, [localStorage.getItem('userInfo')]);
-
-  //로그아웃
-  const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      localStorage.removeItem('userInfo');
-      setIslogin(false);
-      alert('로그아웃되었습니다.');
-    } catch (error) {
-      console.error('로그아웃 중 오류 발생:', error.message);
-      alert('로그아웃에 실패했습니다.');
-    }
   };
 
   // 로컬스토리지 다크모드
@@ -81,12 +53,12 @@ const Header = () => {
           {isLogin ? (
             <>
               <span className="text-white text-sm sm:text-base">
-                {userInfo?.user_metadata.user_name} 님
+                {user?.user_metadata.user_name} 님
               </span>
               <button
                 type="button"
                 className="puple_btn cursor-pointer"
-                onClick={handleLogout}
+                onClick={logout}
               >
                 로그아웃
               </button>

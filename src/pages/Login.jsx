@@ -2,40 +2,25 @@ import React, { useState } from 'react';
 import FormHeader from '@/components/FormHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import FormInput from '@/components/FormInput';
-import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/context/index';
 const Login = () => {
+  const { login } = useAuth();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const navigate = useNavigate();
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: userEmail,
-      password: userPassword,
-    });
-
-    //로그인시 유저 정보 로컬스토리지에 세팅
-    supabase.auth.getSession().then(({ data }) => {
-      const session = data.session;
-      const user = session?.user ?? null;
-      console.log(user);
-      if (user) {
-        localStorage.setItem('userInfo', JSON.stringify(user));
-      }
-    });
-
-    if (error) {
+    try {
+      await login(userEmail, userPassword);
+      alert('로그인 성공!');
+      navigate('/');
+    } catch (error) {
       if (error.message.includes('Invalid login credentials')) {
         alert('이메일 또는 비밀번호가 올바르지 않습니다.');
       } else {
         alert(`로그인 오류: ${error.message}`);
       }
-      console.error('로그인 실패:', error);
-    } else {
-      alert('로그인 성공!');
-      navigate('/');
     }
   };
   return (

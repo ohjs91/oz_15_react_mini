@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/common/Layout';
+
 const Home = lazy(() => import('@/pages/Home'));
 const Details = lazy(() => import('@/pages/Detail'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
