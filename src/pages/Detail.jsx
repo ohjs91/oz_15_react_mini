@@ -1,36 +1,28 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useDetails from '@/hooks/useDetailsFetch';
 import { IMAGE_BASE_URL, YOUTUBE_EMBED_URL } from '@/constants';
 import Loading from '@/pages/Loading';
 import Error from '@/pages/Error';
-import useVideo from '@/hooks/useVideoFetch';
-import useCredits from '@/hooks/useCreditsFetch';
+import useDataStore from '@/store/useDataFetch';
 const MovieDetail = () => {
   const { id } = useParams();
-
   const {
-    data: detailData,
-    loading: detailLoading,
-    error: detailError,
-  } = useDetails({
-    movie_id: id,
-  });
-  const {
-    data: creditsData,
-    loading: creditsLoading,
-    error: creditsError,
-  } = useCredits({
-    movie_id: id,
-  });
-  const {
-    data: videoData,
-    loading: videoLoading,
-    error: videoError,
-  } = useVideo({
-    movie_id: id,
-  });
-
+    detailsData,
+    detailsLoading,
+    detailsError,
+    fetchDetailsMovies,
+    videoData,
+    videoLoading,
+    fetchVideoMovies,
+    creditsData,
+    creditsLoading,
+    fetchCredisMovies,
+  } = useDataStore();
+  useEffect(() => {
+    fetchDetailsMovies(id);
+    fetchCredisMovies(id);
+    fetchVideoMovies(id);
+  }, []);
   // 감독
   const directors = creditsData?.crew?.filter((c) => c.job === 'Director');
   // 출연진
@@ -45,31 +37,31 @@ const MovieDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (detailLoading || creditsLoading || videoLoading) return <Loading />;
-  if (detailError) return <Error error={detailError} />;
+  if (detailsLoading || creditsLoading || videoLoading) return <Loading />;
+  if (detailsError) return <Error error={detailsError} />;
 
   return (
     <div className="detail_wrap bg-white dark:bg-gray-800 p-12 lg:p-30 flex flex-col gap-24">
       <div className="w-full min-w-100">
         <img
           className="w-full h-120"
-          src={IMAGE_BASE_URL + detailData?.backdrop_path}
-          alt={detailData?.title}
+          src={IMAGE_BASE_URL + detailsData?.backdrop_path}
+          alt={detailsData?.title}
         />
       </div>
       <div className="w-full text-black dark:text-white">
         {/* 평점 */}
         <div className="flex flex-col gap-12 justify-between ">
-          <strong className="text-4xl">{detailData?.title}</strong>
+          <strong className="text-4xl">{detailsData?.title}</strong>
           <span>
-            <strong>평점</strong> : ⭐{detailData?.vote_average.toFixed(1)}
+            <strong>평점</strong> : ⭐{detailsData?.vote_average.toFixed(1)}
           </span>
         </div>
         {/* 장르 */}
         <div className="mt-4 ">
           <strong>장르</strong>
           <div className="flex items-center gap-3 mt-2">
-            {detailData?.genres.map((el) => {
+            {detailsData?.genres.map((el) => {
               return (
                 <span
                   className="inline-block px-3 py-1  rounded-full bg-blue-600 text-white text-sm"
@@ -86,8 +78,8 @@ const MovieDetail = () => {
           <strong>줄거리</strong>
 
           <p className="mt-2">
-            {detailData.overview
-              ? detailData.overview
+            {detailsData?.overview
+              ? detailsData.overview
               : '등록된 정보가 없습니다.'}
           </p>
         </div>

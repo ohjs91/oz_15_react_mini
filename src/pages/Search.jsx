@@ -1,19 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
-import useSearch from '@/hooks/useSearchFetch';
 import { BiSearch } from 'react-icons/bi';
 import { Link, useSearchParams } from 'react-router-dom';
 import Loading from './Loading';
-
+import useDataStore from '@/store/useDataFetch';
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const urlKeyword = searchParams.get('query') || '';
   const [keyword, setKeyword] = useState(urlKeyword);
   const [debouncedKeyword, setDebouncedKeyword] = useState(urlKeyword);
+  const { searchData, searchLoading, searchError, fetchSearchMovies } =
+    useDataStore();
 
-  const { data, loading } = useSearch({ keyword: debouncedKeyword });
-
+  useEffect(() => {
+    fetchSearchMovies(debouncedKeyword);
+  }, [debouncedKeyword]);
   // 디바운스
   const debounce = (func, delay) => {
     let timer;
@@ -38,7 +40,8 @@ const Search = () => {
   );
 
   // 성인 필터
-  const filterData = data?.results?.filter((el) => el.adult === false) || [];
+  const filterData =
+    searchData?.results?.filter((el) => el.adult === false) || [];
 
   // keyword 파라미터 동기화
   useEffect(() => {
@@ -59,7 +62,7 @@ const Search = () => {
         />
       </div>
       <div className="media_grid gap-12  overflow-y-auto h-full hide-scrollbar max-h-[80vh]">
-        {loading ? (
+        {searchLoading ? (
           <Loading />
         ) : (
           filterData.map((el, index) => <MovieCard key={el.id} data={el} />)

@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MovieCard from '@/components/MovieCard';
-import useFetch from '@/hooks/useFetch';
 import Loading from './Loading';
 import Error from './Error';
 import PopularSwiper from '@/components/PopularSwiper';
+import useDataStore from '@/store/useDataFetch';
 const Home = () => {
-  const { data, loading, error } = useFetch({});
-  if (loading) return <Loading />;
-  if (error) return <Error error={error} />;
-  const filterData = data.results.filter((el) => el.adult === false);
+  const { popularData, popularLoading, popularError, fetchPopularMovies } =
+    useDataStore();
+  useEffect(() => {
+    fetchPopularMovies();
+  }, []);
+  if (popularLoading) return <Loading />;
+  if (popularError) return <Error error={popularError} />;
+  if (!popularData) return null;
+  const filterData = popularData.results.filter((el) => el.adult === false);
   return (
     <>
       <PopularSwiper data={filterData} />
