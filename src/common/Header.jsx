@@ -3,9 +3,9 @@ import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
-import { useAuth } from '@/context/index';
+import useAuthStore from '@/store/useAuthFetch';
 const Header = () => {
-  const { user, isLogin, logout } = useAuth();
+  const { user, isLogin, fetchLogoutUser } = useAuthStore();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -85,7 +85,7 @@ const Header = () => {
 
                     <li>
                       <button
-                        onClick={logout}
+                        onClick={fetchLogoutUser}
                         className="cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl"
                       >
                         로그아웃

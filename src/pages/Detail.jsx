@@ -18,6 +18,7 @@ const MovieDetail = () => {
     creditsLoading,
     fetchCredisMovies,
   } = useDataStore();
+
   useEffect(() => {
     fetchDetailsMovies(id);
     fetchCredisMovies(id);

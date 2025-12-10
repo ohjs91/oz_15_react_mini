@@ -2,26 +2,20 @@ import React, { useState } from 'react';
 import FormHeader from '@/components/FormHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import FormInput from '@/components/FormInput';
-import { useAuth } from '@/context/index';
+import useAuthStore from '@/store/useAuthFetch';
 const Login = () => {
-  const { login } = useAuth();
+  const { fetchLoginUser } = useAuthStore();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      await login(userEmail, userPassword);
-      alert('로그인 성공!');
-      navigate('/');
-    } catch (error) {
-      if (error.message.includes('Invalid login credentials')) {
-        alert('이메일 또는 비밀번호가 올바르지 않습니다.');
-      } else {
-        alert(`로그인 오류: ${error.message}`);
-      }
-    }
+    fetchLoginUser({
+      email: userEmail,
+      password: userPassword,
+      navigate: navigate,
+    });
   };
   return (
     <div className="flex-center w-screen h-screen bg-gray-100">

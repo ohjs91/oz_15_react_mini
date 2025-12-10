@@ -3,9 +3,11 @@ import FormHeader from '@/components/FormHeader';
 import FormInput from '@/components/FormInput';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/index';
+import useAuthStore from '@/store/useAuthFetch';
 const Signup = () => {
-  const { join } = useAuth();
+  //   const { join } = useAuth();
   const navigate = useNavigate();
+  const { fetchJoinUser } = useAuthStore();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -55,19 +57,12 @@ const Signup = () => {
     e.preventDefault();
 
     if (!validation()) return;
-
-    try {
-      await join({
-        name: userName,
-        email: userEmail,
-        password: userPassword,
-      });
-
-      alert('회원가입 성공!');
-      navigate('/');
-    } catch (error) {
-      alert(error.message);
-    }
+    await fetchJoinUser({
+      name: userName,
+      email: userEmail,
+      password: userPassword,
+      navigate: navigate,
+    });
   };
   return (
     <div className="flex-center w-screen h-screen bg-gray-100">

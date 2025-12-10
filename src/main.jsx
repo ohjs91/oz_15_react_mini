@@ -7,8 +7,8 @@ import { AuthProvider } from '@/context/index';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    {/* <AuthProvider> */}
+    <App />
+    {/* </AuthProvider> */}
   </BrowserRouter>,
 );
