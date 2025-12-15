@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IMAGE_BASE_URL, YOUTUBE_EMBED_URL } from '@/constants';
-import Loading from '@/pages/Loading';
+import Loading from '@/components/Loading';
 import Error from '@/pages/Error';
 import useDataStore from '@/store/useDataFetch';
 const MovieDetail = () => {

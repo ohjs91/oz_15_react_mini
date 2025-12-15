@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import MovieCard from '@/components/MovieCard';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 import Error from './Error';
 import PopularSwiper from '@/components/PopularSwiper';
 import useDataStore from '@/store/useDataFetch';

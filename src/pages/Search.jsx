@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MovieCard from '@/components/MovieCard';
 import { BiSearch } from 'react-icons/bi';
 import { Link, useSearchParams } from 'react-router-dom';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 import useDataStore from '@/store/useDataFetch';
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
