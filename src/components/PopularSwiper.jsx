@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MovieCard from '@/components/MovieCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Zoom } from 'swiper/modules';
+import { Navigation, Pagination, Zoom, Virtual } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -32,7 +32,7 @@ const PopularSwiper = ({ data }) => {
             인기 순위
           </h2>
           <Swiper
-            modules={[Navigation, Pagination, Zoom]}
+            modules={[Navigation, Pagination, Zoom, Virtual]}
             spaceBetween={20}
             loop={true}
             navigation
@@ -66,7 +66,7 @@ const PopularSwiper = ({ data }) => {
             }}
           >
             {data.map((el, index) => (
-              <SwiperSlide key={el.id}>
+              <SwiperSlide key={el.id} virtualIndex={index}>
                 <MovieCard data={el} no={index + 1} />
               </SwiperSlide>
             ))}
