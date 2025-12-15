@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
 import useAuthStore from '@/store/useAuthFetch';
+import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const { user, isLogin, fetchLogoutUser } = useAuthStore();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   // 다크모드 토글
   const toggleDarkMode = () => {
     setIsDarkMode((dark) => !dark);
@@ -77,6 +78,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/mypage"
+                        onClick={() => setOpen(false)}
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
                         마이페이지
@@ -85,7 +87,7 @@ const Header = () => {
 
                     <li>
                       <button
-                        onClick={fetchLogoutUser}
+                        onClick={() => fetchLogoutUser(navigate)}
                         className="cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl"
                       >
                         로그아웃

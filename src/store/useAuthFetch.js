@@ -43,12 +43,13 @@ const useAuthStore = create((set, get) => ({
     return userData;
   },
   //로그아웃 액션
-  fetchLogoutUser: async () => {
+  fetchLogoutUser: async (navigate) => {
     const { error } = await supabase.auth.signOut();
     console.error(error);
     localStorage.removeItem('userInfo');
     set({ user: null, isLogin: false });
     alert('로그아웃 되었습니다.');
+    navigate('/');
   },
 }));
 

@@ -10,6 +10,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Search = lazy(() => import('@/pages/Search'));
 const Login = lazy(() => import('@/pages/Login'));
 const Signup = lazy(() => import('@/pages/Signup'));
+const Mypage = lazy(() => import('@/pages/Mypage'));
 function App() {
   return (
     <Suspense fallback={<Loading />}>
@@ -18,6 +19,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="details/:id" element={<Details />} />
           <Route path="search" element={<Search />} />
+          <Route path="mypage" element={<Mypage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/login" element={<Login />} />
