@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MovieCard from '@/components/MovieCard';
 import Loading from '../components/Loading';
 import Error from './Error';
 import PopularSwiper from '@/components/PopularSwiper';
-import useDataStore from '@/store/useDataFetch';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPopularMovies } from '@/api/moviePopular';
 const Home = () => {
-  const { popularData, popularLoading, popularError, fetchPopularMovies } =
-    useDataStore();
-  useEffect(() => {
-    fetchPopularMovies();
-  }, []);
-  if (popularLoading) return <Loading />;
-  if (popularError) return <Error error={popularError} />;
-  if (!popularData) return null;
-  const filterData = popularData.results.filter((el) => el.adult === false);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['movies', 'details'],
+    queryFn: fetchPopularMovies,
+  });
+
+  if (isLoading) return <Loading />;
+  if (isError) return <Error error={error.message} />;
+
+  const filterData = data.results.filter((el) => el.adult === false);
   return (
     <>
       <PopularSwiper data={filterData} />

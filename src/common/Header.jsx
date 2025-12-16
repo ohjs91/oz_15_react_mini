@@ -3,10 +3,12 @@ import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { IoSunnyOutline, IoMoonOutline } from 'react-icons/io5';
-import useAuthStore from '@/store/useAuthFetch';
+import useAuthStore from '@/store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { logoutUser } from '@/api/userAuth';
 const Header = () => {
-  const { user, isLogin, fetchLogoutUser } = useAuthStore();
+  const { user, isLogin, clearUser } = useAuthStore();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -36,6 +38,27 @@ const Header = () => {
     localStorage.setItem('darkMode', isDarkMode);
   }, [isDarkMode]);
 
+  // 리액트 쿼리 mutation
+  /*
+    isPending : 요청 진행중
+    isSuccess : 성공
+    isError : 실패
+    error : 에러 객체
+    mutate() : 실행
+  
+  */
+  const logoutMutation = useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      clearUser();
+      setOpen(false);
+      alert('로그아웃 되었습니다.');
+      navigate('/');
+    },
+    onError: (err) => {
+      alert(err?.message || '로그아웃에 실패했습니다.');
+    },
+  });
   return (
     <>
       <header className="h-24 px-4 sm:px-12 flex-between bg-black fixed w-full z-99">
@@ -87,7 +110,7 @@ const Header = () => {
 
                     <li>
                       <button
-                        onClick={() => fetchLogoutUser(navigate)}
+                        onClick={() => logoutMutation.mutate()}
                         className="cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl"
                       >
                         로그아웃

@@ -3,7 +3,9 @@ import FormHeader from '@/components/FormHeader';
 import FormInput from '@/components/FormInput';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/index';
-import useAuthStore from '@/store/useAuthFetch';
+import useAuthStore from '@/store/useAuthStore';
+import { useMutation } from '@tanstack/react-query';
+import { joinUser } from '@/api/userAuth';
 const Signup = () => {
   //   const { join } = useAuth();
   const navigate = useNavigate();
@@ -52,16 +54,26 @@ const Signup = () => {
     return isValid;
   };
 
+  const joinMutation = useMutation({
+    mutationFn: joinUser,
+    onSuccess: (data) => {
+      alert('회원가입이 완료되었습니다! 로그인 해주세요.');
+      navigate('/login');
+    },
+    onError: (err) => {
+      alert(err?.message || '회원가입 중 오류가 발생했습니다.');
+    },
+  });
+
   //회원가입 서브밋
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validation()) return;
-    await fetchJoinUser({
+    joinMutation.mutate({
       name: userName,
       email: userEmail,
       password: userPassword,
-      navigate: navigate,
     });
   };
   return (

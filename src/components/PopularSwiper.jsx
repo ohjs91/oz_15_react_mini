@@ -35,9 +35,10 @@ const PopularSwiper = ({ data }) => {
             modules={[Navigation, Pagination, Zoom, Virtual]}
             spaceBetween={20}
             loop={true}
+            // virtual
             navigation
             //   pagination={{ clickable: true }}
-            onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
             breakpoints={{
               320: {
                 slidesPerView: 1,
