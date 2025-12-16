@@ -3,27 +3,32 @@ import { useParams } from 'react-router-dom';
 import { IMAGE_BASE_URL, YOUTUBE_EMBED_URL } from '@/constants';
 import Loading from '@/components/Loading';
 import Error from '@/pages/Error';
-import useDataStore from '@/store/useDataFetch';
+import { useQuery } from '@tanstack/react-query';
+import { fetchMovieDetails } from '@/api/movieDetails';
+import { fetchMovieVideos } from '@/api/movieVideos';
+import { fetchMovieCredits } from '@/api/movieCredits';
+
 const MovieDetail = () => {
   const { id } = useParams();
-  const {
-    detailsData,
-    detailsLoading,
-    detailsError,
-    fetchDetailsMovies,
-    videoData,
-    videoLoading,
-    fetchVideoMovies,
-    creditsData,
-    creditsLoading,
-    fetchCredisMovies,
-  } = useDataStore();
 
-  useEffect(() => {
-    fetchDetailsMovies(id);
-    fetchCredisMovies(id);
-    fetchVideoMovies(id);
-  }, []);
+  const detailsQuery = useQuery({
+    queryKey: ['movies', 'details', id],
+    queryFn: () => fetchMovieDetails(id),
+  });
+
+  const videoQuery = useQuery({
+    queryKey: ['movies', 'video', id],
+    queryFn: () => fetchMovieVideos(id),
+  });
+
+  const creditsQuery = useQuery({
+    queryKey: ['movies', 'credits', id],
+    queryFn: () => fetchMovieCredits(id),
+  });
+
+  const detailsData = detailsQuery.data;
+  const videoData = videoQuery.data;
+  const creditsData = creditsQuery.data;
   // 감독
   const directors = creditsData?.crew?.filter((c) => c.job === 'Director');
   // 출연진
@@ -38,8 +43,11 @@ const MovieDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (detailsLoading || creditsLoading || videoLoading) return <Loading />;
-  if (detailsError) return <Error error={detailsError} />;
+  if (detailsQuery.isLoading || videoQuery.isLoading || creditsQuery.isLoading)
+    return <Loading />;
+  if (detailsQuery.isError) return <Error error={detailsQuery.error} />;
+  if (videoQuery.isError) return <Error error={videoQuery.error} />;
+  if (creditsQuery.isError) return <Error error={creditsQuery.error} />;
 
   return (
     <div className="detail_wrap bg-white dark:bg-gray-800 p-12 lg:p-30 flex flex-col gap-24">

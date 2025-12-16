@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPopularMovies } from '@/api/moviePopular';
 const Home = () => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['movies', 'details'],
+    queryKey: ['movies', 'popular'],
     queryFn: fetchPopularMovies,
   });
 
