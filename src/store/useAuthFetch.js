@@ -24,6 +24,7 @@ const useAuthStore = create((set, get) => ({
     navigate('/');
     return data.user;
   },
+
   //로그인 액션
   fetchLoginUser: async ({ email, password, navigate }) => {
     const { data, error } = await supabase.auth.signInWithPassword({

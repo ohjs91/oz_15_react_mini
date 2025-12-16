@@ -10,8 +10,13 @@ const Search = () => {
   const urlKeyword = searchParams.get('query') || '';
   const [keyword, setKeyword] = useState(urlKeyword);
   const [debouncedKeyword, setDebouncedKeyword] = useState(urlKeyword);
-  const { searchData, searchLoading, searchError, fetchSearchMovies } =
-    useDataStore();
+  const {
+    searchData,
+    searchLoading,
+    searchError,
+    fetchSearchMovies,
+    clearSearchData,
+  } = useDataStore();
 
   useEffect(() => {
     fetchSearchMovies(debouncedKeyword);
@@ -38,7 +43,14 @@ const Search = () => {
     },
     [debouncedSearch],
   );
-
+  // 검색어 없을때 초기화
+  useEffect(() => {
+    if (!keyword) {
+      clearSearchData();
+      setDebouncedKeyword('');
+      setSearchParams({});
+    }
+  }, [keyword]);
   // 성인 필터
   const filterData =
     searchData?.results?.filter((el) => el.adult === false) || [];

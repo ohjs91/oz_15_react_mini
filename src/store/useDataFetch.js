@@ -63,7 +63,8 @@ const useDataStore = create((set, get) => ({
         API_OPTION,
       );
       const result = await res.json();
-      set({ searchData: result, searchLoading: false });
+
+      set({ searchData: result ?? [], searchLoading: false });
     } catch (err) {
       console.error(err);
       set({
@@ -73,7 +74,12 @@ const useDataStore = create((set, get) => ({
       });
     }
   },
-
+  clearSearchData: () =>
+    set({
+      searchData: [],
+      searchLoading: false,
+      searchError: null,
+    }),
   // Details 액션
   fetchDetailsMovies: async (movie_id) => {
     set({ detailsLoading: true, detailsError: null });
