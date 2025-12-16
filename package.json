@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node -e \"console.log('BUILD ENV URL:', process.env.VITE_SUPABASE_PROJECT_URL); console.log('BUILD ENV KEY exists:', !!process.env.VITE_SUPABASE_API_KEY)\" && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
