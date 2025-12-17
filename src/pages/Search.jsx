@@ -3,24 +3,20 @@ import MovieCard from '@/components/MovieCard';
 import { BiSearch } from 'react-icons/bi';
 import { Link, useSearchParams } from 'react-router-dom';
 import Loading from '../components/Loading';
-import useDataStore from '@/store/useDataFetch';
+import { fetchSearchMovies } from '@/api/movieSearch';
+import { useQuery } from '@tanstack/react-query';
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const urlKeyword = searchParams.get('query') || '';
   const [keyword, setKeyword] = useState(urlKeyword);
   const [debouncedKeyword, setDebouncedKeyword] = useState(urlKeyword);
-  const {
-    searchData,
-    searchLoading,
-    searchError,
-    fetchSearchMovies,
-    clearSearchData,
-  } = useDataStore();
 
-  useEffect(() => {
-    fetchSearchMovies(debouncedKeyword);
-  }, [debouncedKeyword]);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['movies', 'search', debouncedKeyword],
+    queryFn: () => fetchSearchMovies(debouncedKeyword),
+  });
+
   // 디바운스
   const debounce = (func, delay) => {
     let timer;
@@ -43,17 +39,9 @@ const Search = () => {
     },
     [debouncedSearch],
   );
-  // 검색어 없을때 초기화
-  useEffect(() => {
-    if (!keyword) {
-      clearSearchData();
-      setDebouncedKeyword('');
-      setSearchParams({});
-    }
-  }, [keyword]);
+
   // 성인 필터
-  const filterData =
-    searchData?.results?.filter((el) => el.adult === false) || [];
+  const filterData = data?.results?.filter((el) => el.adult === false) || [];
 
   // keyword 파라미터 동기화
   useEffect(() => {
@@ -74,7 +62,7 @@ const Search = () => {
         />
       </div>
       <div className="media_grid gap-12  overflow-y-auto h-full hide-scrollbar max-h-[80vh]">
-        {searchLoading ? (
+        {isLoading ? (
           <Loading />
         ) : (
           filterData.map((el, index) => <MovieCard key={el.id} data={el} />)

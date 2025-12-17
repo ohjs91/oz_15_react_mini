@@ -6,22 +6,33 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/zoom';
-const PopularSwiper = ({ data }) => {
+import { useQuery } from '@tanstack/react-query';
+import { fetchPopularMovies } from '@/api/moviePopular';
+import Loading from '../components/Loading';
+const PopularSwiper = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['movies', 'popular'],
+    queryFn: fetchPopularMovies,
+  });
+  if (isLoading) return <Loading />;
+  if (isError) return <Error error={error.message} />;
   return (
     <>
       <div className="popular_swiper_wrap bg-black">
         <div className="flex-center relative px-0 lg:px-20">
           <img
             className="h-100 w-full"
-            src={`${'https://image.tmdb.org/t/p/w1280' + data[activeIndex].backdrop_path}`}
+            src={`${'https://image.tmdb.org/t/p/w1280' + data.results[activeIndex].backdrop_path}`}
             alt=""
           />
           <div className="hidden sm:block hide-scrollbar w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8 z-2">
-            <strong className="text-2xl">{data[activeIndex].title}</strong>
+            <strong className="text-2xl">
+              {data.results[activeIndex].title}
+            </strong>
             <p className="mt-2">
-              {data[activeIndex].overview
-                ? data[activeIndex].overview
+              {data.results[activeIndex].overview
+                ? data.results[activeIndex].overview
                 : '등록된 정보가 없습니다.'}
             </p>
           </div>
@@ -66,7 +77,7 @@ const PopularSwiper = ({ data }) => {
               },
             }}
           >
-            {data.map((el, index) => (
+            {data.results.map((el, index) => (
               <SwiperSlide key={el.id} virtualIndex={index}>
                 <MovieCard data={el} no={index + 1} />
               </SwiperSlide>
