@@ -5,8 +5,10 @@ import Error from './Error';
 import PopularSwiper from '@/components/PopularSwiper';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { fetchMovieDiscover } from '@/api/movieDiscover';
+import ErrorFallback from '@/common/ErrorFallback';
+import { ErrorBoundary } from 'react-error-boundary';
 const Home = () => {
-  const observeRef = useRef();
+  const observeRef = useRef(null);
   // const { data, isLoading, isError, error } = useQuery({
   //   queryKey: ['movies', 'discover'],
   //   queryFn: fetchMovieDiscover,
@@ -58,7 +60,7 @@ const Home = () => {
     .flatMap((page) => page.results)
     .filter((el) => el.adult === false);
   return (
-    <>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <PopularSwiper />
 
       <div className="media_grid gap-12 pt-12 px-20 bg-white dark:bg-gray-800">
@@ -67,7 +69,7 @@ const Home = () => {
         ))}
       </div>
       <div ref={observeRef}></div>
-    </>
+    </ErrorBoundary>
   );
 };
 

@@ -47,6 +47,8 @@ const Search = () => {
   useEffect(() => {
     setSearchParams({ query: keyword });
   }, [keyword]);
+
+  if (isError) return <Error error={error?.message ?? '검색 실패'} />;
   return (
     <div className="Searh_results fixed top-0 w-full h-screen p-12 bg-white dark:bg-gray-800 z-9999">
       <div className="relative w-full max-w-3xl mx-auto mb-6">
@@ -71,7 +73,6 @@ const Search = () => {
       <Link
         to={'/'}
         className="absolute top-2 right-2 text-2xl sm:text-4xl text-black dark:text-white cursor-pointer"
-        onClick={() => setSearchOpen(false)}
       >
         ✕
       </Link>

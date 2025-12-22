@@ -3,6 +3,8 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/common/Layout';
 import Loading from '@/components/Loading';
+import ErrorFallback from '@/common/ErrorFallback';
+import { ErrorBoundary } from 'react-error-boundary';
 const Home = lazy(() => import('@/pages/Home'));
 const Details = lazy(() => import('@/pages/Detail'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
@@ -13,19 +15,21 @@ const Signup = lazy(() => import('@/pages/Signup'));
 const Mypage = lazy(() => import('@/pages/Mypage'));
 function App() {
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="details/:id" element={<Details />} />
-          <Route path="search" element={<Search />} />
-          <Route path="mypage" element={<Mypage />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </Suspense>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="details/:id" element={<Details />} />
+            <Route path="search" element={<Search />} />
+            <Route path="mypage" element={<Mypage />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
