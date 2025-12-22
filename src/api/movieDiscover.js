@@ -1,8 +1,8 @@
 import { API_BASE_URL, API_OPTION } from '@/constants';
 
-export async function fetchMovieDiscover(page = 1) {
+export async function fetchMovieDiscover({ page = 1 }) {
   const res = await fetch(
-    `${API_BASE_URL}discover/movie?language=ko-KR`,
+    `${API_BASE_URL}discover/movie?language=ko-KR&page=${page}`,
     API_OPTION,
   );
 

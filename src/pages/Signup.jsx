@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import FormHeader from '@/components/FormHeader';
 import FormInput from '@/components/FormInput';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/index';
 import useAuthStore from '@/store/useAuthStore';
 import { useMutation } from '@tanstack/react-query';
 import { joinUser } from '@/api/userAuth';
