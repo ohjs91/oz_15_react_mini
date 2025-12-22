@@ -63,7 +63,7 @@ const Home = () => {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <PopularSwiper />
 
-      <div className="media_grid gap-12 pt-12 px-20 bg-white dark:bg-gray-800">
+      <div className="media_grid gap-12 px-4 lg:pt-12 lg:px-20 bg-white dark:bg-gray-800">
         {allMovies.map((el, index) => (
           <MovieCard key={el.id + index} data={el} />
         ))}

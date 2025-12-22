@@ -52,15 +52,15 @@ const MovieDetail = () => {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <div className="detail_wrap bg-white dark:bg-gray-800 p-12 lg:p-30 flex flex-col gap-24">
-        <div className="w-full min-w-100">
+      <div className="detail_wrap bg-white dark:bg-gray-800 p-0 lg:p-30 flex flex-col gap-12 lg:gap-24">
+        <div className="w-full ">
           <img
-            className="w-full h-120"
+            className="w-full h-60 lg:h-120"
             src={IMAGE_BASE_URL + detailsData?.backdrop_path}
             alt={detailsData?.title}
           />
         </div>
-        <div className="w-full text-black dark:text-white">
+        <div className="w-full text-black dark:text-white  p-6">
           {/* 평점 */}
           <div className="flex flex-col gap-12 justify-between ">
             <strong className="text-4xl">{detailsData?.title}</strong>

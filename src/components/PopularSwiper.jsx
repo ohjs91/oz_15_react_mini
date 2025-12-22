@@ -22,11 +22,11 @@ const PopularSwiper = () => {
       <div className="popular_swiper_wrap bg-black">
         <div className="flex-center relative px-0 lg:px-20">
           <img
-            className="h-100 w-full"
+            className="h-60 lg:h-100 w-full"
             src={`${'https://image.tmdb.org/t/p/w1280' + data.results[activeIndex].backdrop_path}`}
             alt=""
           />
-          <div className="hidden sm:block hide-scrollbar w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8 z-2">
+          <div className="hidden sm:block hide-scrollbar  w-[300px] h-[300px] overflow-y-auto bg-black/50 absolute top-[30px] left-[130px] text-white rounded-2xl p-8 z-2">
             <strong className="text-2xl">
               {data.results[activeIndex].title}
             </strong>
@@ -38,7 +38,7 @@ const PopularSwiper = () => {
           </div>
         </div>
 
-        <div className="card_swiper py-10 lg:py-12 px-10 lg:px-12 text-black relative before:content-[''] before:absolute before:w-full before:h-full before:bg-white dark:before:bg-gray-800 before:left-0  before:top-0">
+        <div className="card_swiper py-4 lg:py-12 px-4 lg:px-12 text-black relative before:content-[''] before:absolute before:w-full before:h-full before:bg-white dark:before:bg-gray-800 before:left-0  before:top-0">
           <h2 className="text-black dark:text-white relative text-3xl pb-2">
             인기 순위
           </h2>
