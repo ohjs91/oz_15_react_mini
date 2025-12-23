@@ -68,6 +68,7 @@ const Home = () => {
           <MovieCard key={el.id + index} data={el} />
         ))}
       </div>
+      {isFetchingNextPage && <Loading />}
       <div ref={observeRef}></div>
     </ErrorBoundary>
   );
